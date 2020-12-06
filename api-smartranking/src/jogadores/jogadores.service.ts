@@ -3,37 +3,30 @@ import { CriarJogadorDto } from './dtos/criar-jogador.dto';
 import { Jogador } from './interfaces/jogador.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose'; 
+import { AtualizarJogadorDto } from './dtos/atualizar-jogador.dto';
 
 @Injectable()
 export class JogadoresService {
     constructor(@InjectModel("Jogador") private readonly jogadorModule: Model<Jogador>) {}
 
     async criarJogador(criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
-        const { email, telefoneCelular } = criarJogadorDto;
-        const jogadorComMesmoEmailEncontrado = await this.jogadorModule.findOne({email}).exec();
-        const jogadorComMesmoTelefoneEncontrado = await this.jogadorModule.findOne({telefoneCelular}).exec();
+        const { email } = criarJogadorDto;
+        const jogadorEncontrado = await this.jogadorModule.findOne({email}).exec();
 
-        let erros = "";
-        if (jogadorComMesmoEmailEncontrado) {
-            erros = `Jogador com email ${email} já cadastrado `;
-        }
-        if (jogadorComMesmoTelefoneEncontrado) {
-            erros += `Jogador com telefone ${telefoneCelular} já cadastrado`;
-        }
-        if (erros !== "") {
-            throw new BadRequestException(erros);
+        if (jogadorEncontrado) {
+            throw new BadRequestException(`Jogador com email ${email} já cadastrado`);
         }
 
         const jogadorCriado = new this.jogadorModule(criarJogadorDto);
         return await jogadorCriado.save();
     }
 
-    async atualizarJogador(_id: string, criarJogadorDto: CriarJogadorDto): Promise<Jogador> {
+    async atualizarJogador(_id: string, atualizarJogadorDto: AtualizarJogadorDto): Promise<Jogador> {
         this.verificarSeExiste(_id);
         return await this.jogadorModule.findOneAndUpdate({ 
             _id: _id
         }, { 
-            $set: criarJogadorDto 
+            $set: atualizarJogadorDto 
         })
         .exec();
     }
