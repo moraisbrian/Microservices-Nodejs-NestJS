@@ -25,6 +25,7 @@ export class CategoriasController {
     }
 
     @Put("/:categoria")
+    @UsePipes(ValidationPipe)
     async atualizarCategoria(
         @Body() atualizarCategoriaDto: AtualizarCategoriaDto,
         @Param("categoria") categoria: string): Promise<Categoria> {
@@ -34,5 +35,10 @@ export class CategoriasController {
     @Delete("/:categoria")
     async deletarCategoria(@Param("categoria") categoria: string): Promise<any> {
         return await this.categoriasService.deletarCategoria(categoria);
+    }
+
+    @Post("/:categoria/jogadores/:idJogador")
+    async atribuirCategoriaJogador(@Param() params: Array<string>): Promise<void> {
+        return await this.categoriasService.atribuirCategoriaJogador(params);
     }
 }

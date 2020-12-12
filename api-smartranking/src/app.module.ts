@@ -3,6 +3,7 @@ import { JogadoresModule } from './jogadores/jogadores.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConnectionString } from '../connectionString';
 import { CategoriasModule } from './categorias/categorias.module';
+import { DesafiosModule } from './desafios/desafios.module';
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -15,7 +16,8 @@ const mongooseOptions = {
   imports: [
     JogadoresModule,
     MongooseModule.forRoot(ConnectionString, mongooseOptions),
-    CategoriasModule
+    CategoriasModule,
+    DesafiosModule
   ],
   controllers: [],
   providers: []
