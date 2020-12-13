@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { Jogador } from 'src/jogadores/interfaces/jogador.interface';
 import { JogadoresService } from 'src/jogadores/jogadores.service';
 import { AtualizarCategoriaDto } from './dtos/atualizar-categoria.dto';
 import { CriarCategoriaDto } from './dtos/criar-categoria.dto';
@@ -67,6 +68,10 @@ export class CategoriasService {
 
         categoriaEncontrada.jogadores.push(idJogador);
         await this.categoriaModel.findOneAndUpdate({categoria}, {$set: categoriaEncontrada}).exec();
+    }
+
+    async consultarCategoriaPorJogador(idJogador: any): Promise<Categoria> {
+        return await this.categoriaModel.findOne().where("jogadores").in(idJogador).exec();
     }
 
     private async verificarSeExiste(categoria: string): Promise<Categoria> {

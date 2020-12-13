@@ -39,6 +39,10 @@ export class JogadoresService {
         return this.verificarSeExiste(_id);
     }
 
+    async consultarJogadorPorEmail(email: string): Promise<Jogador> {
+        return await this.jogadorModule.findOne({email}).exec();
+    }
+
     async deletarJogador(_id: string): Promise<any> {
         this.verificarSeExiste(_id);
         return await this.jogadorModule.deleteOne({_id}).exec();
