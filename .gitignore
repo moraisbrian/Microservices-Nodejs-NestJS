@@ -157,6 +157,3 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
-
-# Connection String
-connectionString.ts
