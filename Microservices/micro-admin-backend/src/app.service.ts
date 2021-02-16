@@ -24,4 +24,31 @@ export class AppService {
             throw new RpcException(error.message);
         }
     }
+
+    async consultarTodasCategorias(): Promise<Categoria[]> {
+        try {
+            return await this.categoriaModel.find().exec();
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`);
+            throw new RpcException(error.message);
+        }
+    }
+
+    async consultarCategoriaPorId(_id: string): Promise<Categoria> {
+        try {
+            return await this.categoriaModel.findOne({_id}).exec();
+        } catch (error) {
+            this.logger.error(`error: ${JSON.stringify(error.message)}`);
+            throw new RpcException(error.message);
+        }
+    }
+
+    async atualizarCategoria(_id: string, categoria: Categoria): Promise<void> {
+        try {
+            await this.categoriaModel.findOneAndUpdate({_id}, {$set: categoria}).exec();
+        } catch (error) {
+            this.logger.error(`Error: ${JSON.stringify(error.message)}`);
+            throw new RpcException(error.message);
+        }
+    }
 }
