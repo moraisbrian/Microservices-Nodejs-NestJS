@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CategoriaSchema } from './interfaces/categoria/categoria.schema';
 import { JogadorSchema } from './interfaces/jogador/jogador.schema';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const mongooseOptions = {
   useNewUrlParser: true,
@@ -14,7 +17,7 @@ const mongooseOptions = {
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/sradminbackend', mongooseOptions),
+    MongooseModule.forRoot(process.env.CONNECTION_STRING, mongooseOptions),
     MongooseModule.forFeature([
       { name: 'Categoria', schema: CategoriaSchema },
       { name: 'Jogador', schema: JogadorSchema }

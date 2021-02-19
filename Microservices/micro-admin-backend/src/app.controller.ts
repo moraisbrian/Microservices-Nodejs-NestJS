@@ -34,7 +34,7 @@ export class AppController {
   async consultarCategorias(@Payload() _id: string, @Ctx() context: RmqContext): Promise<Categoria | Categoria[]> {
     const channel = context.getChannelRef();
     const originalMsg = context.getMessage();
-
+    
     try {
       if (_id) {
         return await this.appService.consultarCategoriaPorId(_id);
