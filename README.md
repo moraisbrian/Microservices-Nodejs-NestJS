@@ -1,9 +1,8 @@
-# Microservices NodeJS
+# Microservices com Node.js e NestJS
 
 Curso de microsserviços com as seguintes tecnologias: 
 
-- NodeJS
+- Node.js
 - MongoDB
 - NestJS
 - RabbitMQ
-- AWS
