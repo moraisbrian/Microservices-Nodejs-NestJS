@@ -1,29 +1,18 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { CategoriaSchema } from './interfaces/categoria/categoria.schema';
-import { JogadorSchema } from './interfaces/jogador/jogador.schema';
-import * as dotenv from 'dotenv';
-
-dotenv.config();
-
-const mongooseOptions = {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false
-}
+import { CategoriasModule } from './categorias/categorias.module';
+import { JogadoresModule } from './jogadores/jogadores.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot(process.env.CONNECTION_STRING, mongooseOptions),
-    MongooseModule.forFeature([
-      { name: 'Categoria', schema: CategoriaSchema },
-      { name: 'Jogador', schema: JogadorSchema }
-    ])
+    MongooseModule.forRoot('mongodb+srv://admin_sr:kdWcpu1jWvUSlU6Y@clustermogodb-79l5n.mongodb.net/sradmbackend?retryWrites=true&w=majority',
+      { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true, useFindAndModify: false }),
+    CategoriasModule,
+    JogadoresModule,
+    ConfigModule.forRoot({isGlobal: true}),
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}
